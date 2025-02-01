@@ -149,7 +149,14 @@ def simple_send_with_retries(model, messages):
             _hash, response = send_completion(**kwargs)
             if not response or not hasattr(response, "choices") or not response.choices:
                 return None
-            return response.choices[0].message.content
+
+            # Check for Deepseek reasoning model and handle reasoning_content
+            if 'deepseek-reasoner' in model.name and model.remove_reasoning is None:
+                content = response.choices[0].message.reasoning_content
+            else:
+                content = response.choices[0].message.content
+
+            return content
         except litellm_ex.exceptions_tuple() as err:
             ex_info = litellm_ex.get_ex_info(err)
 
