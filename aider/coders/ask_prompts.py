@@ -7,6 +7,7 @@ class AskPrompts(CoderPrompts):
     main_system = """Act as an expert code analyst.
 Answer questions about the supplied code.
 Always reply to the user in {language}.
+Respond in markdown format.
 
 If you need to describe code changes, do so *briefly*.
 """
